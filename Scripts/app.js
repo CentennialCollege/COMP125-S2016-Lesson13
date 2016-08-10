@@ -13,29 +13,25 @@
 (function () {
     "use strict";
     var canvas;
-    var CANVAS_WIDTH = window.innerWidth;
-    var CANVAS_HEIGHT = window.innerHeight;
+    var CANVAS_WIDTH = 320;
+    var CANVAS_HEIGHT = 320;
     var stage;
     var helloLabel;
     var yDirection = 1;
     var xDirection = 1;
     var dy = 1;
     var dx = 1;
+    var clickMeButton;
     // app entry function
     function init() {
         canvas = document.getElementById("canvas");
-        canvas.setAttribute("width", CANVAS_WIDTH.toString());
-        canvas.setAttribute("height", CANVAS_HEIGHT.toString());
+        canvas.setAttribute("width", "320");
+        canvas.setAttribute("height", "320");
         stage = new createjs.Stage(canvas);
+        stage.enableMouseOver(20); // enable mouse over events
         createjs.Ticker.framerate = 60; // 60 frames per second
         createjs.Ticker.on("tick", gameLoop); // call gameLoop every frame
         main();
-    }
-    function resize() {
-        var CANVAS_WIDTH = window.innerWidth;
-        var CANVAS_HEIGHT = window.innerHeight;
-        helloLabel.x = CANVAS_WIDTH * 0.5;
-        helloLabel.y = CANVAS_HEIGHT * 0.5;
     }
     function checkBounds(axis, boundary) {
         if (axis >= boundary) {
@@ -47,7 +43,7 @@
         return axis;
     }
     function gameLoop() {
-        helloLabel.rotation += 5;
+        //helloLabel.rotation += 5;
         // checkbounds for x and y
         helloLabel.x = checkBounds(helloLabel.x, CANVAS_WIDTH);
         helloLabel.y = checkBounds(helloLabel.y, CANVAS_HEIGHT);
@@ -70,6 +66,5 @@
     }
     // call init funciton when window finishes loading
     window.addEventListener("load", init);
-    window.addEventListener("resize", resize);
 })();
 //# sourceMappingURL=app.js.map

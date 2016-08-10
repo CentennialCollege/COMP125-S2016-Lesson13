@@ -1,4 +1,5 @@
 /// <reference path="objects/label.ts"/>
+/// <reference path="objects/button.ts"/>
 /**
  * FileName: app.js
  *
@@ -10,11 +11,12 @@
  * @description This file is the main javascript file for the web site
  */
 // IIFE - Immediately Invoked Function Expression
-(function () {
+var core;
+(function (core) {
     "use strict";
     var canvas;
-    var CANVAS_WIDTH = 320;
-    var CANVAS_HEIGHT = 320;
+    core.CANVAS_WIDTH = 320;
+    core.CANVAS_HEIGHT = 320;
     var stage;
     var helloLabel;
     var yDirection = 1;
@@ -58,14 +60,14 @@
     function gameLoop() {
         //helloLabel.rotation += 5;
         // checkbounds for x and y
-        helloLabel.x = checkBounds(helloLabel.x, CANVAS_WIDTH);
-        helloLabel.y = checkBounds(helloLabel.y, CANVAS_HEIGHT);
+        helloLabel.x = checkBounds(helloLabel.x, core.CANVAS_WIDTH);
+        helloLabel.y = checkBounds(helloLabel.y, core.CANVAS_HEIGHT);
         // change direction and speed for x and y
-        if ((helloLabel.y == CANVAS_HEIGHT) || (helloLabel.y == 0)) {
+        if ((helloLabel.y == core.CANVAS_HEIGHT) || (helloLabel.y == 0)) {
             dy = Math.floor(Math.random() * 5) + 1;
             yDirection *= -1;
         }
-        if ((helloLabel.x == CANVAS_WIDTH) || (helloLabel.x == 0)) {
+        if ((helloLabel.x == core.CANVAS_WIDTH) || (helloLabel.x == 0)) {
             dx = Math.floor(Math.random() * 5) + 1;
             xDirection *= -1;
         }
@@ -74,23 +76,19 @@
         stage.update(); // refresh the stage container
     }
     function clickMeButton_clicked() {
-        helloLabel.text = "Good Bye!";
+        helloLabel.text = (helloLabel.text === "Hello World!") ? "Good Bye!" : "Hello World!";
     }
     // everything happens here
     function main() {
         // label object
-        helloLabel = new objects.Label("Hello World!", "40px Consolas", "#000000", CANVAS_WIDTH * 0.5, CANVAS_HEIGHT * 0.5, true);
+        helloLabel = new objects.Label("Hello World!", "40px Consolas", "#000000", core.CANVAS_WIDTH * 0.5, core.CANVAS_HEIGHT * 0.5, true);
         stage.addChild(helloLabel);
         // button bitmap
-        clickMeButton = new createjs.Bitmap("../Assets/images/clickMeButton.png");
-        clickMeButton.regX = clickMeButton.getBounds().width * 0.5;
-        clickMeButton.regY = clickMeButton.getBounds().height * 0.5;
-        clickMeButton.x = CANVAS_WIDTH * 0.5;
-        clickMeButton.y = CANVAS_HEIGHT * 0.5;
+        clickMeButton = new objects.Button("../Assets/images/clickMeButton.png", core.CANVAS_WIDTH * 0.5, core.CANVAS_HEIGHT * 0.5, true);
         stage.addChild(clickMeButton);
         clickMeButton.on("click", clickMeButton_clicked);
     }
     // call init funciton when window finishes loading
     window.addEventListener("load", init);
-})();
+})(core || (core = {}));
 //# sourceMappingURL=app.js.map

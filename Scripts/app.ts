@@ -1,4 +1,5 @@
 /// <reference path="objects/label.ts"/>
+/// <reference path="objects/button.ts"/>
 
 /**
  * FileName: app.js
@@ -12,19 +13,19 @@
  */
 
 // IIFE - Immediately Invoked Function Expression
-(function () {
+module core {
     "use strict";
 
     let canvas: HTMLElement;
-    const CANVAS_WIDTH: number = 320;
-    const CANVAS_HEIGHT: number = 320;
+    export const CANVAS_WIDTH: number = 320;
+    export const CANVAS_HEIGHT: number = 320;
     let stage: createjs.Stage;
     let helloLabel: objects.Label;
     let yDirection: number = 1;
     let xDirection: number = 1;
     let dy: number = 1;
     let dx: number = 1;
-    let clickMeButton: createjs.Bitmap;
+    let clickMeButton: objects.Button;
 
     // app entry function
     function init(): void {
@@ -90,8 +91,10 @@
     }
 
     function clickMeButton_clicked():void {
-        helloLabel.text = "Good Bye!";
+        helloLabel.text = (helloLabel.text === "Hello World!") ? "Good Bye!" : "Hello World!";
     }
+
+    
 
     // everything happens here
     function main(): void {
@@ -102,19 +105,16 @@
         stage.addChild(helloLabel);
         
         // button bitmap
-        clickMeButton = new createjs.Bitmap("../Assets/images/clickMeButton.png");
-        clickMeButton.regX = clickMeButton.getBounds().width * 0.5;
-        clickMeButton.regY = clickMeButton.getBounds().height * 0.5;
-        clickMeButton.x = CANVAS_WIDTH * 0.5;
-        clickMeButton.y = CANVAS_HEIGHT * 0.5;
+        clickMeButton = new objects.Button("../Assets/images/clickMeButton.png"
+        , CANVAS_WIDTH * 0.5, CANVAS_HEIGHT * 0.5, true);   
         stage.addChild(clickMeButton);
 
         clickMeButton.on("click", clickMeButton_clicked);
-
+        
     }
 
     // call init funciton when window finishes loading
     window.addEventListener("load", init);
 
 
-})();
+}

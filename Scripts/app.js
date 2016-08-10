@@ -31,8 +31,16 @@
         stage.enableMouseOver(20); // enable mouse over events
         createjs.Ticker.framerate = 60; // 60 frames per second
         createjs.Ticker.on("tick", gameLoop); // call gameLoop every frame
+        // after everything is set up - call main
         main();
     }
+    /**
+     * Utility Method to set the bounds of an object
+     *
+     * @param {number} axis
+     * @param {number} boundary
+     * @returns {number}
+     */
     function checkBounds(axis, boundary) {
         if (axis >= boundary) {
             axis = boundary;
@@ -42,6 +50,11 @@
         }
         return axis;
     }
+    /**
+     * Event method that triggers every frame
+     *
+     * @method gameLoop
+     */
     function gameLoop() {
         //helloLabel.rotation += 5;
         // checkbounds for x and y
@@ -60,9 +73,22 @@
         helloLabel.x += (xDirection * dx);
         stage.update(); // refresh the stage container
     }
+    function clickMeButton_clicked() {
+        helloLabel.text = "Good Bye!";
+    }
+    // everything happens here
     function main() {
+        // label object
         helloLabel = new objects.Label("Hello World!", "40px Consolas", "#000000", CANVAS_WIDTH * 0.5, CANVAS_HEIGHT * 0.5, true);
         stage.addChild(helloLabel);
+        // button bitmap
+        clickMeButton = new createjs.Bitmap("../Assets/images/clickMeButton.png");
+        clickMeButton.regX = clickMeButton.getBounds().width * 0.5;
+        clickMeButton.regY = clickMeButton.getBounds().height * 0.5;
+        clickMeButton.x = CANVAS_WIDTH * 0.5;
+        clickMeButton.y = CANVAS_HEIGHT * 0.5;
+        stage.addChild(clickMeButton);
+        clickMeButton.on("click", clickMeButton_clicked);
     }
     // call init funciton when window finishes loading
     window.addEventListener("load", init);

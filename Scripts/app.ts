@@ -15,16 +15,16 @@
 (function () {
     "use strict";
 
-    var canvas: HTMLElement;
-    var CANVAS_WIDTH: number = 320;
-    var CANVAS_HEIGHT: number = 320;
-    var stage: createjs.Stage;
-    var helloLabel: objects.Label;
-    var yDirection: number = 1;
-    var xDirection: number = 1;
-    var dy: number = 1;
-    var dx: number = 1;
-    var clickMeButton: createjs.Bitmap;
+    let canvas: HTMLElement;
+    const CANVAS_WIDTH: number = 320;
+    const CANVAS_HEIGHT: number = 320;
+    let stage: createjs.Stage;
+    let helloLabel: objects.Label;
+    let yDirection: number = 1;
+    let xDirection: number = 1;
+    let dy: number = 1;
+    let dx: number = 1;
+    let clickMeButton: createjs.Bitmap;
 
     // app entry function
     function init(): void {
@@ -36,9 +36,18 @@
         stage.enableMouseOver(20); // enable mouse over events
         createjs.Ticker.framerate = 60; // 60 frames per second
         createjs.Ticker.on("tick", gameLoop); // call gameLoop every frame
+
+        // after everything is set up - call main
         main();
     }
-
+    
+    /**
+     * Utility Method to set the bounds of an object
+     * 
+     * @param {number} axis
+     * @param {number} boundary
+     * @returns {number}
+     */
     function checkBounds(axis: number, boundary: number): number {
         if (axis >= boundary) {
             axis = boundary;
@@ -49,6 +58,11 @@
         return axis;
     }
 
+    /**
+     * Event method that triggers every frame
+     * 
+     * @method gameLoop
+     */
     function gameLoop(): void {
 
         //helloLabel.rotation += 5;
@@ -75,12 +89,27 @@
         stage.update(); // refresh the stage container
     }
 
+    function clickMeButton_clicked():void {
+        helloLabel.text = "Good Bye!";
+    }
 
+    // everything happens here
     function main(): void {
+
+        // label object
         helloLabel = new objects.Label("Hello World!", "40px Consolas", "#000000", 
         CANVAS_WIDTH * 0.5, CANVAS_HEIGHT * 0.5, true);
         stage.addChild(helloLabel);
+        
+        // button bitmap
+        clickMeButton = new createjs.Bitmap("../Assets/images/clickMeButton.png");
+        clickMeButton.regX = clickMeButton.getBounds().width * 0.5;
+        clickMeButton.regY = clickMeButton.getBounds().height * 0.5;
+        clickMeButton.x = CANVAS_WIDTH * 0.5;
+        clickMeButton.y = CANVAS_HEIGHT * 0.5;
+        stage.addChild(clickMeButton);
 
+        clickMeButton.on("click", clickMeButton_clicked);
 
     }
 
